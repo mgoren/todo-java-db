@@ -54,4 +54,14 @@ public class Category {
       return category;
     }
   }
+
+  public List<Task> getTasks() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM tasks where categoryId=:id";
+      return con.createQuery(sql)
+        .addParameter("id", this.id)
+        .executeAndFetch(Task.class);
+    }
+  }
+
 }
