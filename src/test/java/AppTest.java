@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.fluentlenium.core.filter.FilterConstructor.*;
+import static org.junit.Assert.*;
 
 public class AppTest extends FluentTest {
   public WebDriver webDriver = new HtmlUnitDriver();
@@ -108,6 +109,31 @@ public class AppTest extends FluentTest {
     click("a", withText("Clean"));
     assertThat(pageSource()).contains("Clean");
     assertThat(pageSource()).contains("Return to Home");
+  }
+
+  @Test
+  public void taskUpdate() {
+    Category myCategory = new Category("Home");
+    myCategory.save();
+    Task myTask = new Task("Clean", myCategory.getId());
+    myTask.save();
+    String taskPath = String.format("http://localhost:4567/categories/%d/tasks/%d", myCategory.getId(), myTask.getId());
+    goTo(taskPath);
+    fill("#description").with("Dance");
+    submit("#update-task");
+    assertThat(pageSource()).contains("Dance");
+  }
+
+  @Test
+  public void taskDelete() {
+    Category myCategory = new Category("Home");
+    myCategory.save();
+    Task myTask = new Task("Clean", myCategory.getId());
+    myTask.save();
+    String taskPath = String.format("http://localhost:4567/categories/%d/tasks/%d", myCategory.getId(), myTask.getId());
+    goTo(taskPath);
+    submit("#delete-task");
+    assertEquals(0, Task.all().size());
   }
 
 }
