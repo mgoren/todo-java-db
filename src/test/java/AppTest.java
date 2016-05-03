@@ -97,4 +97,17 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("Deposit paycheck");
   }
 
+  @Test
+  public void taskShowPage() {
+    Category myCategory = new Category("Home");
+    myCategory.save();
+    Task myTask = new Task("Clean", myCategory.getId());
+    myTask.save();
+    String categoryPath = String.format("http://localhost:4567/categories/%d", myCategory.getId());
+    goTo(categoryPath);
+    click("a", withText("Clean"));
+    assertThat(pageSource()).contains("Clean");
+    assertThat(pageSource()).contains("Return to Home");
+  }
+
 }
