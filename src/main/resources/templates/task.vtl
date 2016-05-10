@@ -24,4 +24,8 @@
 
 <p><a href="/tasks/$task.getId()/edit">Edit this task</a></p>
 
+<form action='/tasks/$task.getId()/delete' method='post'>
+  <button type="submit" class="btn-danger" id="delete">Delete</button>
+</form>
+
 <p><a href="/">Home</a></p>

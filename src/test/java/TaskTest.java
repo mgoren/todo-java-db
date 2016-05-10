@@ -56,14 +56,6 @@ public class TaskTest {
   }
 
   @Test
-  public void update_updatesTaskDescription_true() {
-    Task myTask = new Task("Mow the lawn");
-    myTask.save();
-    myTask.update("Take a nap");
-    assertEquals("Take a nap", Task.find(myTask.getId()).getDescription());
-  }
-
-  @Test
   public void addCategory_addsCategoryToTask() {
     Category myCategory = new Category("Household chores");
     myCategory.save();
@@ -86,6 +78,14 @@ public class TaskTest {
   }
 
   @Test
+  public void update_updatesTaskDescription_true() {
+    Task myTask = new Task("Mow the lawn");
+    myTask.save();
+    myTask.update("Take a nap");
+    assertEquals("Take a nap", Task.find(myTask.getId()).getDescription());
+  }
+
+  @Test
   public void delete_deletesAllTasksAndCategoriesAssociations() {
     Category myCategory = new Category("Household chores");
     myCategory.save();
@@ -93,6 +93,7 @@ public class TaskTest {
     myTask.save();
     myTask.addCategory(myCategory);
     myTask.delete();
+    assertEquals(0, Task.all().size());
     assertEquals(0, myCategory.getTasks().size());
   }
 

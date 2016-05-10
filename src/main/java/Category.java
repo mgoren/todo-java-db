@@ -86,16 +86,26 @@ public class Category {
     }
   }
 
+  public void update(String newName) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE categories SET name = :name WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("name", newName)
+        .addParameter("id", this.id)
+        .executeUpdate();
+    }
+  }
+
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
       String deleteQuery = "DELETE FROM categories WHERE id = :id;";
         con.createQuery(deleteQuery)
-          .addParameter("id", this.getId())
+          .addParameter("id", this.id)
           .executeUpdate();
 
       String joinDeleteQuery = "DELETE FROM categories_tasks WHERE category_id = :categoryId";
         con.createQuery(joinDeleteQuery)
-          .addParameter("categoryId", this.getId())
+          .addParameter("categoryId", this.id)
           .executeUpdate();
     }
   }

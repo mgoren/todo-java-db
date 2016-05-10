@@ -1,0 +1,9 @@
+<h3>Update task:</h3>
+
+<form action="/tasks/$task.getId()" method="post">
+  <label for="description">New description</label>
+  <input id="description" name="description" type="text" value="$task.getDescription()">
+  <button type="submit" class="btn btn-success">Update</button>
+</form>
+
+<p><a href="/tasks/$task.getId()">Back</a></p>

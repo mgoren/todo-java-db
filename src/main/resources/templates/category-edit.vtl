@@ -1,0 +1,9 @@
+<h3>Update category:</h3>
+
+<form action="/categories/$category.getId()" method="post">
+  <label for="name">New name</label>
+  <input id="name" name="name" type="text" value="$category.getName()">
+  <button type="submit" class="btn btn-success">Update</button>
+</form>
+
+<p><a href="/categories/$category.getId()">Back</a></p>

@@ -56,16 +56,6 @@ public class Task {
     }
   }
 
-  public void update(String newDescription) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE tasks SET description = :description WHERE id = :id";
-      con.createQuery(sql)
-        .addParameter("description", newDescription)
-        .addParameter("id", this.id)
-        .executeUpdate();
-    }
-  }
-
   public void addCategory(Category category) {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO categories_tasks (category_id, task_id) VALUES (:category_id, :task_id)";
@@ -96,16 +86,27 @@ public class Task {
     }
   }
 
+  public void update(String newDescription) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE tasks SET description = :description WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("description", newDescription)
+        .addParameter("id", this.id)
+        .executeUpdate();
+    }
+  }
+
+
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
-      String deleteQuery = "DELETE FROM tasks WHERE id = :id;";
+      String deleteQuery = "DELETE FROM tasks WHERE id = :id";
         con.createQuery(deleteQuery)
-          .addParameter("id", this.getId())
+          .addParameter("id", this.id)
           .executeUpdate();
 
       String joinDeleteQuery = "DELETE FROM categories_tasks WHERE task_id = :taskId";
         con.createQuery(joinDeleteQuery)
-          .addParameter("taskId", this.getId())
+          .addParameter("taskId", this.id)
           .executeUpdate();
     }
   }

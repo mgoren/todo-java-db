@@ -89,4 +89,24 @@ public class CategoryTest {
     assertEquals(0, myTask.getCategories().size());
   }
 
+  @Test
+  public void update_updatesCategoryName_true() {
+    Category myCategory = new Category("Household chores");
+    myCategory.save();
+    myCategory.update("Fun things");
+    assertEquals("Fun things", Category.find(myCategory.getId()).getName());
+  }
+
+  @Test
+  public void delete_deletesAllCategoriesAndTasksAssociations() {
+    Category myCategory = new Category("Household chores");
+    myCategory.save();
+    Task myTask = new Task("Mow the lawn");
+    myTask.save();
+    myCategory.addTask(myTask);
+    myCategory.delete();
+    assertEquals(0, myCategory.all().size());
+    assertEquals(0, myTask.getCategories().size());
+  }
+
 }
